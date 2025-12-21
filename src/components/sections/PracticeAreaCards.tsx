@@ -20,8 +20,9 @@ export default function PracticeAreaCards({ practiceAreas }: PracticeAreaCardsPr
                 </div>
                 <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                     {practiceAreas.map((area) => {
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        const IconComponent = area.icon && (Icons as any)[area.icon] ? (Icons as any)[area.icon] : Icons.HelpCircle
+                        const IconComponent = area.icon && (Icons as unknown as Record<string, React.ElementType>)[area.icon]
+                            ? (Icons as unknown as Record<string, React.ElementType>)[area.icon]
+                            : Icons.HelpCircle
                         return (
                             <Link key={area.id} href={`/services/${area.slug}`} className="block group h-full">
                                 <Card className="h-full transition-all hover:shadow-md hover:border-primary/20">

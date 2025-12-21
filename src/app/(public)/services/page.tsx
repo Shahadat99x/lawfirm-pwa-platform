@@ -26,8 +26,9 @@ export default async function ServicesPage() {
                 </div>
                 <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {practiceAreas.map((area) => {
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        const IconComponent = area.icon && (Icons as any)[area.icon] ? (Icons as any)[area.icon] : Icons.HelpCircle
+                        const IconComponent = area.icon && (Icons as unknown as Record<string, React.ElementType>)[area.icon]
+                            ? (Icons as unknown as Record<string, React.ElementType>)[area.icon]
+                            : Icons.HelpCircle
                         return (
                             <Link key={area.id} href={`/services/${area.slug}`} className="block group">
                                 <Card className="h-full transition-all group-hover:shadow-md group-hover:border-primary/20">
