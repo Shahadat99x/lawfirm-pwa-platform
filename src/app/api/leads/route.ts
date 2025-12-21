@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { env } from '@/lib/env'
 
 // Simple in-memory rate limiter (Map<IP, Timestamp[]>)
-// In production/serverless this would be Redis/KV, but sufficient for Phase 3 reqs.
 const rateLimitMap = new Map<string, number[]>()
 const RATE_LIMIT_WINDOW = 10 * 60 * 1000 // 10 minutes
 const MAX_REQUESTS = 5
@@ -32,39 +32,45 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        const body = await request.json()
+        type LeadPayload = {
+            full_name?: string
+            email?: string
+            phone?: string
+            city?: string
+            practice_area_slug?: string
+            message?: string
+            gdpr_consent?: boolean
+            honeypot?: string
+        }
+
+        let body: LeadPayload
+        try {
+            body = await request.json()
+        } catch (parseError) {
+            console.error('[API/Leads] Invalid JSON payload:', parseError)
+            return NextResponse.json(
+                { ok: false, error: "Invalid JSON payload." },
+                { status: 400 }
+            )
+        }
+
         const { full_name, email, phone, city, practice_area_slug, message, gdpr_consent, honeypot } = body
 
-        // 1. Anti-spam: Honeypot check
-        if (honeypot) {
-            // Silent rejection - looks like success to bot
-            return NextResponse.json({ ok: true })
-        }
+        // 1. Anti-spam: Honeypot & Validation
+        if (honeypot) return NextResponse.json({ ok: true })
+        if (!full_name || full_name.length < 2) return NextResponse.json({ ok: false, error: "Invalid name." }, { status: 400 })
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return NextResponse.json({ ok: false, error: "Invalid email." }, { status: 400 })
+        if (!practice_area_slug) return NextResponse.json({ ok: false, error: "Service required." }, { status: 400 })
+        if (!message || message.length < 20) return NextResponse.json({ ok: false, error: "Message too short." }, { status: 400 })
+        if (!gdpr_consent) return NextResponse.json({ ok: false, error: "Consent required." }, { status: 400 })
 
-        // 2. Validation
-        if (!full_name || full_name.length < 2 || full_name.length > 80) {
-            return NextResponse.json({ ok: false, error: "Invalid name (2-80 chars)." }, { status: 400 })
-        }
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            return NextResponse.json({ ok: false, error: "Invalid email address." }, { status: 400 })
-        }
-        if (!practice_area_slug) {
-            return NextResponse.json({ ok: false, error: "Please select a service." }, { status: 400 })
-        }
-        if (!message || message.length < 20 || message.length > 2000) {
-            return NextResponse.json({ ok: false, error: "Message too short/long (20-2000 chars)." }, { status: 400 })
-        }
-        if (!gdpr_consent) {
-            return NextResponse.json({ ok: false, error: "GDPR consent required." }, { status: 400 })
-        }
-        if (!city) {
-            return NextResponse.json({ ok: false, error: "City is required." }, { status: 400 })
-        }
+        // 2. Database Insert
+        // Debug Log (Server only)
+        console.log(`[API/Leads] Inserting lead using URL: ${env.NEXT_PUBLIC_SUPABASE_URL}`)
 
-        // 3. Database Insert
         const supabase = createAdminClient()
 
-        const { error: dbError } = await supabase.from('leads').insert({
+        const { data: insertedData, error: dbError } = await supabase.from('leads').insert({
             full_name,
             email,
             phone: phone ? phone.trim() : null,
@@ -74,21 +80,25 @@ export async function POST(request: NextRequest) {
             gdpr_consent,
             source: 'contact_page',
             status: 'new'
-        })
+        }).select().single()
 
         if (dbError) {
-            console.error('Supabase Insert Error:', dbError)
-            // Generic error for client
-            return NextResponse.json({ ok: false, error: "Failed to submit. Please contact us directly." }, { status: 500 })
+            console.error('[API/Leads] Supabase Insert Error:', dbError)
+            return NextResponse.json({
+                ok: false,
+                error: dbError.message
+            }, { status: 500 })
         }
 
-        // 4. Optional: Email Notification (Placeholder)
-        // if (env.RESEND_API_KEY) { await sendEmail(...) }
-
+        console.log(`[API/Leads] Success. ID: ${insertedData?.id}`)
         return NextResponse.json({ ok: true })
 
     } catch (error) {
-        console.error('API Error:', error)
-        return NextResponse.json({ ok: false, error: "Internal Server Error" }, { status: 500 })
+        const message = error instanceof Error ? error.message : 'Unknown'
+        console.error('[API/Leads] Internal Error:', error)
+        return NextResponse.json({
+            ok: false,
+            error: `Internal Server Error: ${message}`
+        }, { status: 500 })
     }
 }
