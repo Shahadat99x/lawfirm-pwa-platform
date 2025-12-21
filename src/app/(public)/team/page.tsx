@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
-import Image from "next/image"
 import Container from "@/components/ui/Container"
-import { lawyers } from "@/lib/content/lawyers"
+import { getLawyers } from "@/lib/data"
 import { Badge } from "@/components/ui/Badge"
 import { Mail } from "lucide-react"
 
@@ -10,7 +9,11 @@ export const metadata: Metadata = {
     description: 'Meet our experienced team of lawyers specializing in Lithuanian immigration and business law.',
 }
 
-export default function TeamPage() {
+export const revalidate = 3600
+
+export default async function TeamPage() {
+    const lawyers = await getLawyers()
+
     return (
         <div className="bg-white py-24 sm:py-32">
             <Container>
@@ -22,7 +25,7 @@ export default function TeamPage() {
                 </div>
                 <ul role="list" className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                     {lawyers.map((person) => (
-                        <li key={person.name}>
+                        <li key={person.id}>
                             <div className="aspect-[3/2] w-full bg-slate-100 rounded-2xl object-cover relative overflow-hidden flex items-center justify-center">
                                 {/* Placeholder for no image */}
                                 <span className="text-gray-400">Photo: {person.name}</span>
@@ -37,12 +40,13 @@ export default function TeamPage() {
                                 ))}
                             </div>
                             <p className="mt-4 text-base leading-7 text-gray-600">{person.bio}</p>
+                            {/* Note: Email is not in DB schema yet, maybe add to DB or just link to contact */}
                             <ul role="list" className="mt-6 flex gap-x-6">
                                 <li>
-                                    <a href={`mailto:${person.email}`} className="text-gray-400 hover:text-gray-500 flex items-center gap-1">
-                                        <span className="sr-only">Email</span>
+                                    <a href="/contact" className="text-gray-400 hover:text-gray-500 flex items-center gap-1">
+                                        <span className="sr-only">Contact</span>
                                         <Mail className="h-5 w-5" />
-                                        <span className="text-sm">{person.email}</span>
+                                        <span className="text-sm">Contact</span>
                                     </a>
                                 </li>
                             </ul>

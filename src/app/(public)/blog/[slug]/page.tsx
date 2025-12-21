@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import Container from "@/components/ui/Container"
-import { blogPosts } from "@/lib/content/blogPosts"
+import { getBlogPostBySlug, getBlogPosts } from "@/lib/data"
 import { Badge } from "@/components/ui/Badge"
 import { ArrowLeft } from "lucide-react"
 
@@ -9,15 +9,22 @@ interface PageProps {
     params: Promise<{ slug: string }>
 }
 
+export const revalidate = 3600
+
 export async function generateStaticParams() {
-    return blogPosts.map((post) => ({
-        slug: post.slug,
-    }))
+    try {
+        const posts = await getBlogPosts()
+        return posts.map((post) => ({
+            slug: post.slug,
+        }))
+    } catch (err) {
+        return []
+    }
 }
 
 export async function generateMetadata({ params }: PageProps) {
     const { slug } = await params
-    const post = blogPosts.find((p) => p.slug === slug)
+    const post = await getBlogPostBySlug(slug)
 
     if (!post) return { title: 'Post Not Found' }
 
@@ -29,7 +36,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function BlogPostPage({ params }: PageProps) {
     const { slug } = await params
-    const post = blogPosts.find((p) => p.slug === slug)
+    const post = await getBlogPostBySlug(slug)
 
     if (!post) {
         notFound()
@@ -44,9 +51,11 @@ export default async function BlogPostPage({ params }: PageProps) {
                     </Link>
                     <div className="text-center">
                         <div className="flex items-center justify-center gap-x-4 text-xs mb-6">
-                            <time dateTime={post.publishedAt} className="text-gray-500">
-                                {new Date(post.publishedAt).toLocaleDateString()}
-                            </time>
+                            {post.publishedAt && (
+                                <time dateTime={post.publishedAt} className="text-gray-500">
+                                    {new Date(post.publishedAt).toLocaleDateString()}
+                                </time>
+                            )}
                             <span className="text-gray-300">·</span>
                             <span className="text-gray-500">{post.readingTime}</span>
                         </div>
@@ -64,10 +73,16 @@ export default async function BlogPostPage({ params }: PageProps) {
                     />
 
                     <div className="mt-16 border-t border-gray-200 pt-8 flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-slate-200" />
+                        <div className="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-gray-500">
+                            {typeof post.author === 'object' ? post.author.name.charAt(0) : 'A'}
+                        </div>
                         <div>
-                            <p className="text-sm font-semibold text-gray-900">{post.author.name}</p>
-                            <p className="text-sm text-gray-500">{post.author.role}</p>
+                            <p className="text-sm font-semibold text-gray-900">
+                                {typeof post.author === 'object' ? post.author.name : post.author}
+                            </p>
+                            {typeof post.author === 'object' && (
+                                <p className="text-sm text-gray-500">{post.author.role}</p>
+                            )}
                         </div>
                     </div>
                 </div>

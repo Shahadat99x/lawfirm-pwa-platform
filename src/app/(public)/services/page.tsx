@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Container from "@/components/ui/Container"
-import { practiceAreas } from "@/lib/content/practiceAreas"
+import { getPracticeAreas } from "@/lib/data"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card"
 import * as Icons from "lucide-react"
 
@@ -10,7 +10,11 @@ export const metadata: Metadata = {
     description: 'Full range of legal services including immigration, business formation, and employment contracts.',
 }
 
-export default function ServicesPage() {
+export const revalidate = 3600 // 1 hour
+
+export default async function ServicesPage() {
+    const practiceAreas = await getPracticeAreas()
+
     return (
         <div className="bg-slate-50 py-24 sm:py-32">
             <Container>
@@ -22,7 +26,8 @@ export default function ServicesPage() {
                 </div>
                 <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {practiceAreas.map((area) => {
-                        const IconComponent = (Icons as any)[area.icon] || Icons.HelpCircle
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        const IconComponent = area.icon && (Icons as any)[area.icon] ? (Icons as any)[area.icon] : Icons.HelpCircle
                         return (
                             <Link key={area.id} href={`/services/${area.slug}`} className="block group">
                                 <Card className="h-full transition-all group-hover:shadow-md group-hover:border-primary/20">
@@ -33,7 +38,7 @@ export default function ServicesPage() {
                                         <CardTitle className="group-hover:text-primary transition-colors">{area.title}</CardTitle>
                                     </CardHeader>
                                     <CardContent>
-                                        <p className="text-sm text-gray-600">{area.description}</p>
+                                        <p className="text-sm text-gray-600 line-clamp-3">{area.description || area.excerpt}</p>
                                         <div className="mt-4 flex items-center text-sm font-semibold text-accent">
                                             View Details <Icons.ArrowRight className="ml-1 h-4 w-4" />
                                         </div>

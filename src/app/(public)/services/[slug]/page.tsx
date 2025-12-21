@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import Container from "@/components/ui/Container"
-import { practiceAreas } from "@/lib/content/practiceAreas"
+import { getPracticeAreaBySlug, getPracticeAreas } from "@/lib/data"
 import { Button } from "@/components/ui/Button"
 import { ArrowLeft, CheckCircle } from "lucide-react"
 
@@ -9,27 +9,34 @@ interface PageProps {
     params: Promise<{ slug: string }>
 }
 
+export const revalidate = 3600
+
 export async function generateStaticParams() {
-    return practiceAreas.map((area) => ({
-        slug: area.slug,
-    }))
+    try {
+        const areas = await getPracticeAreas()
+        return areas.map((area) => ({
+            slug: area.slug,
+        }))
+    } catch (error) {
+        return []
+    }
 }
 
 export async function generateMetadata({ params }: PageProps) {
     const { slug } = await params
-    const area = practiceAreas.find((p) => p.slug === slug)
+    const area = await getPracticeAreaBySlug(slug)
 
     if (!area) return { title: 'Service Not Found' }
 
     return {
         title: `${area.title} | LexNova Legal`,
-        description: area.description,
+        description: area.description || area.excerpt,
     }
 }
 
 export default async function ServicePage({ params }: PageProps) {
     const { slug } = await params
-    const area = practiceAreas.find((p) => p.slug === slug)
+    const area = await getPracticeAreaBySlug(slug)
 
     if (!area) {
         notFound()
