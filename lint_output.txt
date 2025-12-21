@@ -1,0 +1,32 @@
+
+> lawfirm-pwa-platform@0.1.0 lint
+> eslint
+
+
+W:\Lawyer\lawfirm-pwa-platform\src\app\blog\page.tsx
+  6:10  warning  'Card' is defined but never used         @typescript-eslint/no-unused-vars
+  6:16  warning  'CardContent' is defined but never used  @typescript-eslint/no-unused-vars
+
+W:\Lawyer\lawfirm-pwa-platform\src\app\disclaimer\page.tsx
+  9:67  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  9:71  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  9:73  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  9:77  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  9:82  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  9:86  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+W:\Lawyer\lawfirm-pwa-platform\src\app\not-found.tsx
+  15:41  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  15:61  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+W:\Lawyer\lawfirm-pwa-platform\src\app\services\page.tsx
+  25:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+W:\Lawyer\lawfirm-pwa-platform\src\app\team\page.tsx
+  2:8  warning  'Image' is defined but never used  @typescript-eslint/no-unused-vars
+
+W:\Lawyer\lawfirm-pwa-platform\src\components\sections\PracticeAreaCards.tsx
+  20:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 13 problems (10 errors, 3 warnings)
+

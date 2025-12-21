@@ -18,8 +18,7 @@ const requiredClientEnv = [
     'NEXT_PUBLIC_SUPABASE_ANON_KEY',
 ] as const
 
-type ServerEnvKeys = (typeof requiredServerEnv)[number]
-type ClientEnvKeys = (typeof requiredClientEnv)[number]
+
 
 /**
  * Validates existence of server-side environment variables.
