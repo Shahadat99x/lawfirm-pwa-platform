@@ -34,6 +34,15 @@ export default function BlogPreview({ recentPosts }: BlogPreviewProps) {
                                     )}
                                 </div>
                                 <div className="group relative">
+                                    {post.cover_image_url ? (
+                                        <div className="aspect-video w-full rounded-xl overflow-hidden mb-4 bg-gray-100">
+                                            <img
+                                                src={post.cover_image_url}
+                                                alt={post.title}
+                                                className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                            />
+                                        </div>
+                                    ) : null}
                                     <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-primary transition-colors">
                                         <span className="absolute inset-0" />
                                         {post.title}

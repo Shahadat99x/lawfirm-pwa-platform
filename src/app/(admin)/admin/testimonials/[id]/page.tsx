@@ -7,7 +7,8 @@ interface PageProps {
 }
 
 export default async function EditTestimonialPage({ params }: PageProps) {
-    const testimonial = await getTestimonialForEdit(params.id)
+    const { id } = await params
+    const testimonial = await getTestimonialForEdit(id)
     if (!testimonial) notFound()
 
     return <TestimonialEditor testimonial={testimonial} />

@@ -61,6 +61,15 @@ export default async function BlogPostPage({ params }: PageProps) {
                             <span className="text-gray-300">·</span>
                             <span className="text-gray-500">{post.readingTime}</span>
                         </div>
+                        {post.cover_image_url && (
+                            <div className="aspect-video w-full rounded-2xl overflow-hidden mb-8 bg-gray-100 shadow-md">
+                                <img
+                                    src={post.cover_image_url}
+                                    alt={post.title}
+                                    className="h-full w-full object-cover"
+                                />
+                            </div>
+                        )}
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-serif mb-6">{post.title}</h1>
                         <div className="flex justify-center gap-2 mb-8">
                             {post.tags.map(tag => (

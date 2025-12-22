@@ -7,7 +7,8 @@ interface PageProps {
 }
 
 export default async function EditServicePage({ params }: PageProps) {
-    const service = await getServiceForEdit(params.id)
+    const { id } = await params
+    const service = await getServiceForEdit(id)
     if (!service) notFound()
 
     return <ServiceEditor service={service} />

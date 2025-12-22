@@ -7,7 +7,8 @@ interface PageProps {
 }
 
 export default async function EditTeamMemberPage({ params }: PageProps) {
-    const member = await getTeamMemberForEdit(params.id)
+    const { id } = await params
+    const member = await getTeamMemberForEdit(id)
     if (!member) notFound()
 
     return <TeamEditor member={member} />
