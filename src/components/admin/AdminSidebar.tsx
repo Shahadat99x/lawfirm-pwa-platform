@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Inbox, LogOut } from "lucide-react"
+import { LayoutDashboard, Inbox, LogOut, FileText, Briefcase, Users, MessageSquare, Settings } from "lucide-react"
 import { createClient } from "@/lib/supabase/browser"
 import { useRouter } from "next/navigation"
 
@@ -19,6 +19,11 @@ export default function AdminSidebar() {
     const navigation = [
         { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
         { name: 'Leads', href: '/admin/leads', icon: Inbox },
+        { name: 'Blog', href: '/admin/blog', icon: FileText },
+        { name: 'Services', href: '/admin/services', icon: Briefcase },
+        { name: 'Team', href: '/admin/team', icon: Users },
+        { name: 'Testimonials', href: '/admin/testimonials', icon: MessageSquare },
+        { name: 'Settings', href: '/admin/settings', icon: Settings },
     ]
 
     return (
@@ -34,8 +39,8 @@ export default function AdminSidebar() {
                             key={item.name}
                             href={item.href}
                             className={`group flex items-center rounded-md px-2 py-2 text-sm font-medium transition-colors ${isActive
-                                    ? "bg-slate-800 text-white"
-                                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                                ? "bg-slate-800 text-white"
+                                : "text-slate-300 hover:bg-slate-800 hover:text-white"
                                 }`}
                         >
                             <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />

@@ -4,6 +4,8 @@ import Container from "@/components/ui/Container"
 import { getBlogPostBySlug, getBlogPosts } from "@/lib/data"
 import { Badge } from "@/components/ui/Badge"
 import { ArrowLeft } from "lucide-react"
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 
 interface PageProps {
     params: Promise<{ slug: string }>
@@ -67,10 +69,11 @@ export default async function BlogPostPage({ params }: PageProps) {
                         </div>
                     </div>
 
-                    <div
-                        className="prose prose-lg prose-slate mx-auto prose-headings:font-serif prose-a:text-primary"
-                        dangerouslySetInnerHTML={{ __html: post.content }}
-                    />
+                    <div className="prose prose-lg prose-slate mx-auto prose-headings:font-serif prose-a:text-primary">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {post.content}
+                        </ReactMarkdown>
+                    </div>
 
                     <div className="mt-16 border-t border-gray-200 pt-8 flex items-center gap-4">
                         <div className="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-gray-500">
