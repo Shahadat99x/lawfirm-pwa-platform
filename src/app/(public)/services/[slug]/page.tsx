@@ -4,6 +4,8 @@ import Container from "@/components/ui/Container"
 import { getPracticeAreaBySlug, getPracticeAreas } from "@/lib/data"
 import { Button } from "@/components/ui/Button"
 import { ArrowLeft, CheckCircle } from "lucide-react"
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface PageProps {
     params: Promise<{ slug: string }>
@@ -51,10 +53,9 @@ export default async function ServicePage({ params }: PageProps) {
                 <div className="lg:grid lg:grid-cols-12 lg:gap-8">
                     <div className="lg:col-span-8">
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-serif mb-6">{area.title}</h1>
-                        <div
-                            className="prose prose-slate max-w-none prose-headings:font-serif prose-a:text-primary"
-                            dangerouslySetInnerHTML={{ __html: area.content }}
-                        />
+                        <div className="prose prose-slate max-w-none prose-headings:font-serif prose-a:text-primary">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{area.content}</ReactMarkdown>
+                        </div>
                     </div>
                     <div className="lg:col-span-4 mt-12 lg:mt-0">
                         <div className="bg-slate-50 rounded-2xl p-8 sticky top-24">

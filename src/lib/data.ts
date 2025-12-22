@@ -100,7 +100,8 @@ export async function getTestimonials(): Promise<Testimonial[]> {
         .select('*')
         .eq('is_published', true)
         .order('sort_order', { ascending: true })
-        .limit(3) // Limit for homepage
+        .order('created_at', { ascending: false })
+        .limit(6) // Increased limit just in case
 
     if (error) {
         // Non-critical, return empty

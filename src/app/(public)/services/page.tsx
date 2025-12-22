@@ -33,8 +33,12 @@ export default async function ServicesPage() {
                             <Link key={area.id} href={`/services/${area.slug}`} className="block group">
                                 <Card className="h-full transition-all group-hover:shadow-md group-hover:border-primary/20">
                                     <CardHeader>
-                                        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-100 group-hover:border-primary/20">
-                                            <IconComponent className="h-6 w-6 text-primary" />
+                                        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-100 group-hover:border-primary/20 overflow-hidden">
+                                            {area.icon && area.icon.startsWith('http') ? (
+                                                <img src={area.icon} alt="" className="h-full w-full object-cover" />
+                                            ) : (
+                                                <IconComponent className="h-6 w-6 text-primary" />
+                                            )}
                                         </div>
                                         <CardTitle className="group-hover:text-primary transition-colors">{area.title}</CardTitle>
                                     </CardHeader>

@@ -27,8 +27,11 @@ export default async function TeamPage() {
                     {lawyers.map((person) => (
                         <li key={person.id}>
                             <div className="aspect-[3/2] w-full bg-slate-100 rounded-2xl object-cover relative overflow-hidden flex items-center justify-center">
-                                {/* Placeholder for no image */}
-                                <span className="text-gray-400">Photo: {person.name}</span>
+                                {person.image ? (
+                                    <img src={person.image} alt={person.name} className="h-full w-full object-cover" />
+                                ) : (
+                                    <span className="text-gray-400">Photo: {person.name}</span>
+                                )}
                             </div>
                             <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-gray-900">{person.name}</h3>
                             <p className="text-base leading-7 text-primary">{person.role}</p>

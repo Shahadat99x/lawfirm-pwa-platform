@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Loader2 } from 'lucide-react'
 
+import { updateSettings } from '@/app/actions/settings'
 import { SiteSettings } from '@/types/content'
 
 export default function SettingsPage() {
@@ -27,11 +28,7 @@ export default function SettingsPage() {
         e.preventDefault()
         setSaving(true)
         try {
-            const { error } = await supabase
-                .from('site_settings')
-                .upsert({ id: 1, ...settings, updated_at: new Date().toISOString() })
-
-            if (error) throw error
+            await updateSettings(settings)
             alert('Settings saved successfully!')
         } catch (err) {
             alert('Error: ' + (err instanceof Error ? err.message : 'Unknown error'))

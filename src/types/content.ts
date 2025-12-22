@@ -50,6 +50,7 @@ export interface BlogPost {
 }
 
 export interface SiteSettings {
+    id: number
     firm_name: string
     phone?: string
     email?: string
