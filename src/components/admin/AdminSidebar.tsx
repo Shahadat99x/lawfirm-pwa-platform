@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Inbox, LogOut, FileText, Briefcase, Users, MessageSquare, Settings } from "lucide-react"
+import { LayoutDashboard, Inbox, LogOut, FileText, Briefcase, Users, MessageSquare, Settings, Calendar } from "lucide-react"
 import { createClient } from "@/lib/supabase/browser"
 import { useRouter } from "next/navigation"
 
@@ -18,6 +18,7 @@ export default function AdminSidebar() {
 
     const navigation = [
         { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+        { name: 'Appointments', href: '/admin/appointments', icon: Calendar },
         { name: 'Leads', href: '/admin/leads', icon: Inbox },
         { name: 'Blog', href: '/admin/blog', icon: FileText },
         { name: 'Services', href: '/admin/services', icon: Briefcase },

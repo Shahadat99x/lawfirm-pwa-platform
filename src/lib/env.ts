@@ -10,6 +10,12 @@ const requiredServerEnv = [
     'CLOUDINARY_API_KEY',
     'CLOUDINARY_API_SECRET',
     'RESEND_API_KEY',
+    'SMTP_HOST',
+    'SMTP_PORT',
+    'SMTP_SECURE',
+    'SMTP_USER',
+    'SMTP_PASS',
+    'ADMIN_NOTIFY_EMAIL',
 
 ] as const
 
@@ -62,6 +68,12 @@ export const env = {
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY!,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET!,
     RESEND_API_KEY: process.env.RESEND_API_KEY!,
+    SMTP_HOST: process.env.SMTP_HOST!,
+    SMTP_PORT: process.env.SMTP_PORT!,
+    SMTP_SECURE: process.env.SMTP_SECURE!,
+    SMTP_USER: process.env.SMTP_USER!,
+    SMTP_PASS: process.env.SMTP_PASS!,
+    ADMIN_NOTIFY_EMAIL: process.env.ADMIN_NOTIFY_EMAIL!,
 
 
 }

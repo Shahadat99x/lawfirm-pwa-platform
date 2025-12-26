@@ -1,0 +1,11 @@
+﻿W:\Lawyer\lawfirm-pwa-platform\docs\SUPABASE_SQL_APPLY_NOW.sql
+W:\Lawyer\lawfirm-pwa-platform\handoff\schema.sql
+W:\Lawyer\lawfirm-pwa-platform\supabase\migrations\0001_init.sql
+W:\Lawyer\lawfirm-pwa-platform\supabase\migrations\0002_seed.sql
+W:\Lawyer\lawfirm-pwa-platform\supabase\migrations\0003_leads_intake.sql
+W:\Lawyer\lawfirm-pwa-platform\supabase\migrations\0004_admin_rls_leads.sql
+W:\Lawyer\lawfirm-pwa-platform\supabase\migrations\0005_leads_fields.sql
+W:\Lawyer\lawfirm-pwa-platform\supabase\migrations\0006_blog_cms.sql
+W:\Lawyer\lawfirm-pwa-platform\supabase\migrations\0007_site_settings_seed.sql
+W:\Lawyer\lawfirm-pwa-platform\supabase\migrations\0008_practice_areas_update.sql
+W:\Lawyer\lawfirm-pwa-platform\supabase\migrations\0009_lawyers_update.sql

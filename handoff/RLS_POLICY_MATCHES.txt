@@ -1,0 +1,58 @@
+﻿
+docs\SUPABASE_SQL_APPLY_NOW.sql:54:CREATE POLICY "auth can read leads"
+docs\SUPABASE_SQL_APPLY_NOW.sql:61:CREATE POLICY "auth can update leads"
+supabase\migrations\0001_init.sql:86:CREATE POLICY "Public practice_areas are viewable by everyone." ON 
+practice_areas FOR SELECT USING (true);
+supabase\migrations\0001_init.sql:87:CREATE POLICY "Active lawyers are viewable by everyone." ON lawyers FOR 
+SELECT USING (is_active = true);
+supabase\migrations\0001_init.sql:88:CREATE POLICY "Published testimonials are viewable by everyone." ON 
+testimonials FOR SELECT USING (is_published = true);
+supabase\migrations\0001_init.sql:89:CREATE POLICY "Published blog posts are viewable by everyone." ON 
+blog_posts FOR SELECT USING (status = 'published');
+supabase\migrations\0001_init.sql:90:CREATE POLICY "Site settings are viewable by everyone." ON site_settings 
+FOR SELECT USING (true);
+supabase\migrations\0001_init.sql:93:-- CREATE POLICY "Admins can insert practice_areas" ON practice_areas FOR 
+INSERT WITH CHECK (auth.role() = 'authenticated');
+supabase\migrations\0003_leads_intake.sql:29:CREATE POLICY "Public cannot access leads" ON leads
+supabase\migrations\0004_admin_rls_leads.sql:13:CREATE POLICY "auth can read leads"
+supabase\migrations\0004_admin_rls_leads.sql:20:CREATE POLICY "auth can update leads"
+supabase\migrations\0006_blog_cms.sql:5:CREATE POLICY "Admins can insert blog_posts" ON blog_posts FOR INSERT 
+WITH CHECK (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:6:CREATE POLICY "Admins can update blog_posts" ON blog_posts FOR UPDATE 
+USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:7:CREATE POLICY "Admins can delete blog_posts" ON blog_posts FOR DELETE 
+USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:9:CREATE POLICY "Admins can view all blog_posts" ON blog_posts FOR SELECT 
+USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:13:CREATE POLICY "Admins can insert practice_areas" ON practice_areas FOR 
+INSERT WITH CHECK (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:14:CREATE POLICY "Admins can update practice_areas" ON practice_areas FOR 
+UPDATE USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:15:CREATE POLICY "Admins can delete practice_areas" ON practice_areas FOR 
+DELETE USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:17:CREATE POLICY "Admins can view all practice_areas" ON practice_areas 
+FOR SELECT USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:20:CREATE POLICY "Admins can insert lawyers" ON lawyers FOR INSERT WITH 
+CHECK (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:21:CREATE POLICY "Admins can update lawyers" ON lawyers FOR UPDATE USING 
+(auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:22:CREATE POLICY "Admins can delete lawyers" ON lawyers FOR DELETE USING 
+(auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:23:CREATE POLICY "Admins can view all lawyers" ON lawyers FOR SELECT USING 
+(auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:26:CREATE POLICY "Admins can insert testimonials" ON testimonials FOR 
+INSERT WITH CHECK (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:27:CREATE POLICY "Admins can update testimonials" ON testimonials FOR 
+UPDATE USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:28:CREATE POLICY "Admins can delete testimonials" ON testimonials FOR 
+DELETE USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:29:CREATE POLICY "Admins can view all testimonials" ON testimonials FOR 
+SELECT USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:32:CREATE POLICY "Admins can update site_settings" ON site_settings FOR 
+UPDATE USING (auth.role() = 'authenticated');
+supabase\migrations\0006_blog_cms.sql:34:CREATE POLICY "Admins can insert site_settings" ON site_settings FOR 
+INSERT WITH CHECK (auth.role() = 'authenticated');
+supabase\migrations\0008_practice_areas_update.sql:8:CREATE POLICY "Public practice_areas are viewable by 
+everyone." ON practice_areas FOR SELECT USING (is_published = true);
+
+

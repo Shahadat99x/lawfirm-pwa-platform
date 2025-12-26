@@ -1,0 +1,2 @@
+﻿W:\Lawyer\lawfirm-pwa-platform\.env.example
+W:\Lawyer\lawfirm-pwa-platform\.env.local
