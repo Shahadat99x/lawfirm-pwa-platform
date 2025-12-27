@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 import { siteConfig } from "@/lib/seo-config";
+import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -71,6 +72,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#1e293b",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -82,6 +90,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <ServiceWorkerRegister />
       </body>
     </html>
   );
