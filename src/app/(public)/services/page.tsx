@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import Container from "@/components/ui/Container"
 import { getPracticeAreas } from "@/lib/data"
@@ -25,33 +26,45 @@ export default async function ServicesPage() {
                     </p>
                 </div>
                 <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {practiceAreas.map((area) => {
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        const icons: any = Icons
-                        const IconComponent = area.icon && icons[area.icon] ? icons[area.icon] : Icons.HelpCircle
-                        return (
-                            <Link key={area.id} href={`/services/${area.slug}`} className="block group">
-                                <Card className="h-full transition-all group-hover:shadow-md group-hover:border-primary/20">
-                                    <CardHeader>
-                                        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-100 group-hover:border-primary/20 overflow-hidden">
-                                            {area.icon && area.icon.startsWith('http') ? (
-                                                <img src={area.icon} alt="" className="h-full w-full object-cover" />
-                                            ) : (
-                                                <IconComponent className="h-6 w-6 text-primary" />
-                                            )}
-                                        </div>
-                                        <CardTitle className="group-hover:text-primary transition-colors">{area.title}</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-sm text-gray-600 line-clamp-3">{area.description || area.excerpt}</p>
-                                        <div className="mt-4 flex items-center text-sm font-semibold text-accent">
-                                            View Details <Icons.ArrowRight className="ml-1 h-4 w-4" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </Link>
-                        )
-                    })}
+                    {practiceAreas.length > 0 ? (
+                        practiceAreas.map((area) => {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            const icons: any = Icons
+                            const IconComponent = area.icon && icons[area.icon] ? icons[area.icon] : Icons.HelpCircle
+                            return (
+                                <Link key={area.id} href={`/services/${area.slug}`} className="block group">
+                                    <Card className="h-full transition-all group-hover:shadow-md group-hover:border-primary/20">
+                                        <CardHeader>
+                                            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-100 group-hover:border-primary/20 overflow-hidden relative">
+                                                {area.icon && area.icon.startsWith('http') ? (
+                                                    <Image
+                                                        src={area.icon}
+                                                        alt=""
+                                                        fill
+                                                        sizes="48px"
+                                                        className="object-cover"
+                                                    />
+                                                ) : (
+                                                    <IconComponent className="h-6 w-6 text-primary" />
+                                                )}
+                                            </div>
+                                            <CardTitle className="group-hover:text-primary transition-colors">{area.title}</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-sm text-gray-600 line-clamp-3">{area.description || area.excerpt}</p>
+                                            <div className="mt-4 flex items-center text-sm font-semibold text-accent">
+                                                View Details <Icons.ArrowRight className="ml-1 h-4 w-4" />
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
+                            )
+                        })
+                    ) : (
+                        <div className="col-span-full text-center py-12">
+                            <p className="text-lg text-gray-500">No services found.</p>
+                        </div>
+                    )}
                 </div>
             </Container>
         </div>

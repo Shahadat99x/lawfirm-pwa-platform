@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import Image from "next/image"
 import Link from "next/link"
 import Container from "@/components/ui/Container"
 import { getBlogPostBySlug, getBlogPosts } from "@/lib/data"
@@ -28,11 +29,38 @@ export async function generateMetadata({ params }: PageProps) {
     const { slug } = await params
     const post = await getBlogPostBySlug(slug)
 
-    if (!post) return { title: 'Post Not Found' }
+    if (!post) {
+        return {
+            title: 'Post Not Found',
+        }
+    }
+
+    const ogImage = post.cover_image_url || '/og-image.jpg' // Fallback to safe default if no cover
 
     return {
         title: `${post.title} | LexNova Legal`,
         description: post.excerpt,
+        openGraph: {
+            title: post.title,
+            description: post.excerpt,
+            type: 'article',
+            publishedTime: post.publishedAt,
+            authors: [typeof post.author === 'object' ? post.author.name : post.author],
+            images: [
+                {
+                    url: ogImage,
+                    width: 1200,
+                    height: 630,
+                    alt: post.title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.excerpt,
+            images: [ogImage],
+        },
     }
 }
 
@@ -62,11 +90,14 @@ export default async function BlogPostPage({ params }: PageProps) {
                             <span className="text-gray-500">{post.readingTime}</span>
                         </div>
                         {post.cover_image_url && (
-                            <div className="aspect-video w-full rounded-2xl overflow-hidden mb-8 bg-gray-100 shadow-md">
-                                <img
+                            <div className="aspect-video w-full rounded-2xl overflow-hidden mb-8 bg-gray-100 shadow-md relative">
+                                <Image
                                     src={post.cover_image_url}
                                     alt={post.title}
-                                    className="h-full w-full object-cover"
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                    sizes="(max-width: 768px) 100vw, 800px"
                                 />
                             </div>
                         )}

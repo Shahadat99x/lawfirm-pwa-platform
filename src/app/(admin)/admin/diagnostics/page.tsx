@@ -1,23 +1,21 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { createClient } from "@/lib/supabase/browser"
 import { Button } from "@/components/ui/Button"
 import { useSession } from "@/lib/auth/session"
 
 export default function DiagnosticsPage() {
     const { user } = useSession()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [readResult, setReadResult] = useState<any>(null)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [insertResult, setInsertResult] = useState<any>(null)
-    const [config, setConfig] = useState<any>({})
-
-    useEffect(() => {
-        // Safe exposure of non-secret config
-        setConfig({
-            url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-            hasAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-        })
-    }, [])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [config] = useState<any>({
+        url: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        hasAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    })
 
     async function testRead() {
         const supabase = createClient()
@@ -52,8 +50,12 @@ export default function DiagnosticsPage() {
             })
             const data = await res.json()
             setInsertResult({ status: res.status, data })
-        } catch (err: any) {
-            setInsertResult({ success: false, error: err.message })
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setInsertResult({ success: false, error: err.message })
+            } else {
+                setInsertResult({ success: false, error: 'Unknown error' })
+            }
         }
     }
 

@@ -14,7 +14,7 @@ export default function Hero() {
                 <div className="mx-auto max-w-2xl text-center">
                     <div className="mb-8 flex justify-center">
                         <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                            New: 2025 EU Blue Card Guidelines. <Link href="/blog/eu-blue-card-guide-lithuania" className="font-semibold text-primary"><span className="absolute inset-0" aria-hidden="true" />Read more <span aria-hidden="true">&rarr;</span></Link>
+                            MB vs UAB: Which Business Structure is Right for You? <Link href="/blog/mb-vs-uab-which-business-structure-is-right-for-you-complete-guide-for-lithuania" className="font-semibold text-primary"><span className="absolute inset-0" aria-hidden="true" />Read more <span aria-hidden="true">&rarr;</span></Link>
                         </div>
                     </div>
                     <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl font-serif">
@@ -25,7 +25,7 @@ export default function Hero() {
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
                         <Button asChild size="lg">
-                            <Link href="/contact">Book a Consultation</Link>
+                            <Link href="/book">Book a Consultation</Link>
                         </Button>
                         <Link href="/services" className="text-sm font-semibold leading-6 text-gray-900">
                             Explore Services <span aria-hidden="true">→</span>

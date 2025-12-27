@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import Container from "@/components/ui/Container"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
@@ -119,7 +120,7 @@ export default function BookPage() {
                         </p>
                         <div className="mt-10">
                             <Button asChild onClick={() => window.location.reload()}>
-                                <a href="/">Return Home</a>
+                                <Link href="/">Return Home</Link>
                             </Button>
                         </div>
                     </div>

@@ -6,6 +6,14 @@ import Faq from "@/components/sections/Faq"
 import BlogPreview from "@/components/sections/BlogPreview"
 import { getBlogPosts, getPracticeAreas, getTestimonials } from "@/lib/data"
 
+import { siteConfig } from "@/lib/seo-config"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: siteConfig.name,
+    description: siteConfig.description,
+}
+
 export const revalidate = 3600
 
 export default async function Home() {

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, Suspense } from "react"
+import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import Container from "@/components/ui/Container"
 import { Button } from "@/components/ui/Button"
@@ -80,7 +81,7 @@ function ContactContent() {
                         </p>
                         <div className="mt-10">
                             <Button asChild onClick={() => window.location.reload()}>
-                                <a href="/">Return Home</a>
+                                <Link href="/">Return Home</Link>
                             </Button>
                         </div>
                     </div>
@@ -250,7 +251,7 @@ function ContactContent() {
 
                         {/* Honeypot Field - Hidden */}
                         <div className="hidden" aria-hidden="true">
-                            <label htmlFor="honeypot">Don't fill this out if you're human:</label>
+                            <label htmlFor="honeypot">Don&apos;t fill this out if you&apos;re human:</label>
                             <input type="text" name="honeypot" id="honeypot" tabIndex={-1} autoComplete="off" />
                         </div>
 
@@ -265,7 +266,7 @@ function ContactContent() {
                                 />
                             </div>
                             <label htmlFor="gdpr_consent" className="text-sm leading-6 text-gray-600">
-                                I agree to the <a href="/privacy" className="font-semibold text-primary hover:underline">privacy policy</a> and consent to having my data processed for the purpose of this inquiry. <span className="text-red-500">*</span>
+                                I agree to the <Link href="/privacy" className="font-semibold text-primary hover:underline">privacy policy</Link> and consent to having my data processed for the purpose of this inquiry. <span className="text-red-500">*</span>
                             </label>
                         </div>
 

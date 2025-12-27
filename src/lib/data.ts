@@ -4,6 +4,7 @@ import { PracticeArea, Lawyer, Testimonial, BlogPost, SiteSettings } from '@/typ
 // --- Helpers ---
 
 // Handle missing/null values for compatibility
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapPracticeArea(row: any): PracticeArea {
     return {
         ...row,
@@ -11,6 +12,7 @@ function mapPracticeArea(row: any): PracticeArea {
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapLawyer(row: any): Lawyer {
     return {
         ...row,
@@ -19,6 +21,7 @@ function mapLawyer(row: any): Lawyer {
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapTestimonial(row: any): Testimonial {
     return {
         ...row,
@@ -26,6 +29,7 @@ function mapTestimonial(row: any): Testimonial {
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapBlogPost(row: any): BlogPost {
     return {
         ...row,

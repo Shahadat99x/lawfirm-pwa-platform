@@ -28,11 +28,21 @@ export async function generateMetadata({ params }: PageProps) {
     const { slug } = await params
     const area = await getPracticeAreaBySlug(slug)
 
-    if (!area) return { title: 'Service Not Found' }
+    if (!area) {
+        return {
+            title: 'Service Not Found',
+        }
+    }
 
     return {
         title: `${area.title} | LexNova Legal`,
         description: area.description || area.excerpt,
+        openGraph: {
+            title: area.title,
+            description: area.description || area.excerpt,
+            type: 'website',
+            images: area.icon && area.icon.startsWith('http') ? [area.icon] : [],
+        },
     }
 }
 

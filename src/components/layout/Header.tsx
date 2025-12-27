@@ -54,7 +54,7 @@ export default function Header() {
 
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                         <Button asChild size="sm" className="hidden sm:flex">
-                            <Link href="/contact">Book Consultation</Link>
+                            <Link href="/book">Book Consultation</Link>
                         </Button>
                     </div>
 
@@ -97,7 +97,7 @@ export default function Header() {
                         ))}
                         <div className="mt-4 pt-4 border-t border-gray-100">
                             <Button asChild className="w-full justify-center">
-                                <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Book Consultation</Link>
+                                <Link href="/book" onClick={() => setMobileMenuOpen(false)}>Book Consultation</Link>
                             </Button>
                         </div>
                     </div>
