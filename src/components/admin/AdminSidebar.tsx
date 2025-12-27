@@ -6,7 +6,7 @@ import { LayoutDashboard, Inbox, LogOut, FileText, Briefcase, Users, MessageSqua
 import { createClient } from "@/lib/supabase/browser"
 import { useRouter } from "next/navigation"
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {
     const pathname = usePathname()
     const router = useRouter()
 
@@ -14,6 +14,7 @@ export default function AdminSidebar() {
         const supabase = createClient()
         await supabase.auth.signOut()
         router.push("/admin/login")
+        onNavigate?.()
     }
 
     const navigation = [
@@ -32,13 +33,14 @@ export default function AdminSidebar() {
             <div className="flex h-16 items-center px-6">
                 <span className="text-xl font-bold font-serif text-accent">LexNova Admin</span>
             </div>
-            <nav className="flex-1 space-y-1 px-4 py-4">
+            <nav className="flex-1 space-y-1 px-4 py-4 overflow-y-auto">
                 {navigation.map((item) => {
-                    const isActive = pathname === item.href
+                    const isActive = pathname === item.href || (item.href !== '/admin' && pathname?.startsWith(item.href))
                     return (
                         <Link
                             key={item.name}
                             href={item.href}
+                            onClick={onNavigate}
                             className={`group flex items-center rounded-md px-2 py-2 text-sm font-medium transition-colors ${isActive
                                 ? "bg-slate-800 text-white"
                                 : "text-slate-300 hover:bg-slate-800 hover:text-white"
