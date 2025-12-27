@@ -66,9 +66,7 @@ export async function POST(request: NextRequest) {
 
         // 2. Database Insert
         // Debug Log (Server only)
-        console.log(`[API/Leads] Inserting lead using URL: ${env.NEXT_PUBLIC_SUPABASE_URL}`)
-
-        const supabase = createAdminClient()
+            const supabase = createAdminClient()
 
         const { data: insertedData, error: dbError } = await supabase.from('leads').insert({
             full_name,
@@ -90,7 +88,6 @@ export async function POST(request: NextRequest) {
             }, { status: 500 })
         }
 
-        console.log(`[API/Leads] Success. ID: ${insertedData?.id}`)
         return NextResponse.json({ ok: true })
 
     } catch (error) {

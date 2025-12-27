@@ -1,79 +1,42 @@
 /**
- * Environment Variable Accessor
- * Ensures all required environment variables are present before starting the app (or accessing them).
- * Throws helpful errors if missing.
+ * Environment Variable Validation
+ * ensuring critical keys exist at runtime.
  */
 
-const requiredServerEnv = [
-    'SUPABASE_SERVICE_ROLE_KEY',
-    'CLOUDINARY_CLOUD_NAME',
-    'CLOUDINARY_API_KEY',
-    'CLOUDINARY_API_SECRET',
-    'RESEND_API_KEY',
-    'SMTP_HOST',
-    'SMTP_PORT',
-    'SMTP_SECURE',
-    'SMTP_USER',
-    'SMTP_PASS',
-    'ADMIN_NOTIFY_EMAIL',
-
+const requiredEnvVars = [
+  'NEXT_PUBLIC_SUPABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'NEXT_PUBLIC_SITE_URL',
 ] as const
 
-const requiredClientEnv = [
-    'NEXT_PUBLIC_SITE_URL',
-    'NEXT_PUBLIC_SUPABASE_URL',
-    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-] as const
-
-
-
-/**
- * Validates existence of server-side environment variables.
- * Should be called in server contexts.
- */
 export function validateEnv() {
-    if (typeof window !== 'undefined') return // Skip on client
+  const missing = requiredEnvVars.filter(
+    (key) => !process.env[key]
+  )
 
-    const missing: string[] = []
-
-    for (const key of requiredServerEnv) {
-        if (!process.env[key]) {
-            missing.push(key)
-        }
-    }
-
-    for (const key of requiredClientEnv) {
-        if (!process.env[key]) {
-            missing.push(key)
-        }
-    }
-
-    if (missing.length > 0) {
-        throw new Error(
-            `❌ Missing required environment variables:\n${missing.join('\n')}\nHave you configured .env.local?`
-        )
-    }
+  if (missing.length > 0) {
+    throw new Error(
+      `❌ Invalid Environment Variables: Missing required keys: ${missing.join(
+        ', '
+      )}`
+    )
+  }
 }
 
-// Export typed accessors (optional helper, or just use process.env directly after validation)
+// Run validation immediately
+validateEnv()
+
 export const env = {
-    // Client
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL!,
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-
-    // Server
-    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME!,
-    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY!,
-    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET!,
-    RESEND_API_KEY: process.env.RESEND_API_KEY!,
-    SMTP_HOST: process.env.SMTP_HOST!,
-    SMTP_PORT: process.env.SMTP_PORT!,
-    SMTP_SECURE: process.env.SMTP_SECURE!,
-    SMTP_USER: process.env.SMTP_USER!,
-    SMTP_PASS: process.env.SMTP_PASS!,
-    ADMIN_NOTIFY_EMAIL: process.env.ADMIN_NOTIFY_EMAIL!,
-
-
+  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL!,
+  // Optional server-side key
+  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  ADMIN_NOTIFY_EMAIL: process.env.ADMIN_NOTIFY_EMAIL,
+  SMTP_HOST: process.env.SMTP_HOST,
+  SMTP_PORT: process.env.SMTP_PORT,
+  SMTP_SECURE: process.env.SMTP_SECURE,
+  SMTP_USER: process.env.SMTP_USER,
+  SMTP_PASS: process.env.SMTP_PASS,
+  SMTP_FROM: process.env.SMTP_FROM,
 }

@@ -64,6 +64,9 @@ export default function Header() {
                             type="button"
                             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            aria-expanded={mobileMenuOpen}
+                            aria-controls="mobile-menu"
+                            aria-label="Open main menu"
                         >
                             <span className="sr-only">Open main menu</span>
                             {mobileMenuOpen ? (
@@ -78,7 +81,7 @@ export default function Header() {
 
             {/* Mobile Menu Overlay */}
             {mobileMenuOpen && (
-                <div className="lg:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-200 shadow-lg animate-in slide-in-from-top-2">
+                <div id="mobile-menu" className="lg:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-200 shadow-lg animate-in slide-in-from-top-2">
                     <div className="space-y-1 px-4 pb-3 pt-2">
                         {navigation.map((item) => (
                             <Link

@@ -82,11 +82,10 @@ export async function deleteService(id: string) {
 }
 
 export async function getServiceForEdit(id: string) {
-    console.log('[getServiceForEdit] Fetching service:', id)
     const supabase = await createClient() // Admin check
     const { data: { user } } = await supabase.auth.getUser()
+
     if (!user) {
-        console.log('[getServiceForEdit] No user found')
         return null
     }
 
