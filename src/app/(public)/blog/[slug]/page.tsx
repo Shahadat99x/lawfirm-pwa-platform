@@ -26,41 +26,50 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-    const { slug } = await params
-    const post = await getBlogPostBySlug(slug)
+    try {
+        const { slug } = await params
+        const post = await getBlogPostBySlug(slug)
 
-    if (!post) {
-        return {
-            title: 'Post Not Found',
+        if (!post) {
+            return {
+                title: 'Post Not Found | LexNova Legal',
+                description: 'The requested blog post could not be found.',
+            }
         }
-    }
 
-    const ogImage = post.cover_image_url || '/og-image.jpg' // Fallback to safe default if no cover
+        const ogImage = post.cover_image_url || '/og-image.jpg' // Fallback to safe default if no cover
 
-    return {
-        title: `${post.title} | LexNova Legal`,
-        description: post.excerpt,
-        openGraph: {
-            title: post.title,
-            description: post.excerpt,
-            type: 'article',
-            publishedTime: post.publishedAt,
-            authors: [typeof post.author === 'object' ? post.author.name : post.author],
-            images: [
-                {
-                    url: ogImage,
-                    width: 1200,
-                    height: 630,
-                    alt: post.title,
-                },
-            ],
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title: post.title,
-            description: post.excerpt,
-            images: [ogImage],
-        },
+        return {
+            title: `${post.title} | LexNova Legal`,
+            description: post.excerpt || 'Read more on LexNova Legal blog',
+            openGraph: {
+                title: post.title,
+                description: post.excerpt || '',
+                type: 'article',
+                publishedTime: post.publishedAt,
+                authors: [typeof post.author === 'object' ? post.author.name : post.author],
+                images: [
+                    {
+                        url: ogImage,
+                        width: 1200,
+                        height: 630,
+                        alt: post.title,
+                    },
+                ],
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: post.title,
+                description: post.excerpt || '',
+                images: [ogImage],
+            },
+        }
+    } catch (error) {
+        console.error('Error generating blog post metadata:', error)
+        return {
+            title: 'Blog Post | LexNova Legal',
+            description: 'Legal insights and advice from LexNova Legal',
+        }
     }
 }
 
@@ -103,16 +112,20 @@ export default async function BlogPostPage({ params }: PageProps) {
                         )}
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-serif mb-6">{post.title}</h1>
                         <div className="flex justify-center gap-2 mb-8">
-                            {post.tags.map(tag => (
+                            {post.tags && Array.isArray(post.tags) && post.tags.map(tag => (
                                 <Badge key={tag} variant="secondary">{tag}</Badge>
                             ))}
                         </div>
                     </div>
 
                     <div className="prose prose-lg prose-slate mx-auto prose-headings:font-serif prose-a:text-primary">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                            {post.content}
-                        </ReactMarkdown>
+                        {post.content ? (
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {post.content}
+                            </ReactMarkdown>
+                        ) : (
+                            <p className="text-gray-500 italic">No content available</p>
+                        )}
                     </div>
 
                     <div className="mt-16 border-t border-gray-200 pt-8 flex items-center gap-4">

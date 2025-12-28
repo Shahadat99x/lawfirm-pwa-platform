@@ -130,14 +130,27 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 }
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-    const supabase = await createClient()
-    const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .eq('slug', slug)
-        .eq('status', 'published')
-        .single()
-
-    if (error) return null
-    return mapBlogPost(data)
+    try {
+        const supabase = await createClient()
+        const { data, error } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('slug', slug)
+            .eq('status', 'published')
+            .maybeSingle() // Use maybeSingle() instead of single() to avoid throwing on no results
+        
+        if (error) {
+            console.error(`Error fetching blog post with slug "${slug}":`, error.message)
+            return null
+        }
+        
+        if (!data) {
+            return null
+        }
+        
+        return mapBlogPost(data)
+    } catch (err) {
+        console.error(`Unexpected error in getBlogPostBySlug for slug "${slug}":`, err)
+        return null
+    }
 }
