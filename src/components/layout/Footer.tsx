@@ -92,10 +92,19 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24">
-                    <p className="text-xs leading-5 text-gray-400">
-                        &copy; {new Date().getFullYear()} LexNova Legal. All rights reserved. <br />
-                        Located in Vilnius, Lithuania. Not a government agency.
-                    </p>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <p className="text-xs leading-5 text-gray-400">
+                            &copy; {new Date().getFullYear()} LexNova Legal. All rights reserved. <br />
+                            Located in Vilnius, Lithuania. Not a government agency.
+                        </p>
+                        <Link
+                            href="/admin/login"
+                            className="text-xs text-gray-500 hover:text-gray-400 transition-colors"
+                            aria-label="Staff login"
+                        >
+                            Staff Login
+                        </Link>
+                    </div>
                 </div>
             </Container>
         </footer>
