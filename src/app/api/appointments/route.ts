@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-import { env } from '@/lib/env'
+import { clientEnv, serverEnv } from '@/lib/env'
 import { sendMail } from '@/lib/email/mailer'
 import { appointmentRequested, adminNewAppointmentNotification } from '@/lib/email/templates'
 
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Conflict Check
-    const supabaseAdmin = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
+    const supabaseAdmin = createClient(clientEnv.NEXT_PUBLIC_SUPABASE_URL, serverEnv.SUPABASE_SERVICE_ROLE_KEY)
     
     const { data: existing } = await supabaseAdmin
       .from('appointments')
@@ -77,9 +77,9 @@ export async function POST(req: NextRequest) {
     })
 
     // To Admin
-    if (env.ADMIN_NOTIFY_EMAIL) {
+    if (serverEnv.ADMIN_NOTIFY_EMAIL) {
       await sendMail({
-        to: env.ADMIN_NOTIFY_EMAIL,
+        to: serverEnv.ADMIN_NOTIFY_EMAIL,
         subject: 'New Appointment Request',
         html: adminNewAppointmentNotification(full_name, email, appointment_date, appointment_time, practice_area_slug)
       })

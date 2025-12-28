@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-import { env } from '@/lib/env'
+import { clientEnv, serverEnv } from '@/lib/env'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
   // Use service role to ensure we can see all appointments regardless of future policies
   // though for availability, we just need to know times
-  const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
+  const supabase = createClient(clientEnv.NEXT_PUBLIC_SUPABASE_URL, serverEnv.SUPABASE_SERVICE_ROLE_KEY)
 
   const { data, error } = await supabase
     .from('appointments')

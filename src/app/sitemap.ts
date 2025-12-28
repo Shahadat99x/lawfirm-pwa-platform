@@ -1,9 +1,9 @@
 import { type MetadataRoute } from 'next'
 import { getBlogPosts, getPracticeAreas } from '@/lib/data'
-import { env } from '@/lib/env'
+import { clientEnv } from '@/lib/env'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = env.NEXT_PUBLIC_SITE_URL
+    const baseUrl = clientEnv.NEXT_PUBLIC_SITE_URL
 
     // Static routes
     const routes = [

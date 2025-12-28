@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
-import { env } from '@/lib/env'
+import { clientEnv } from '@/lib/env'
 import { sendMail } from '@/lib/email/mailer'
 import { appointmentApproved, appointmentRejected } from '@/lib/email/templates'
 
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) { // removed params argument to avo
   }
 
   const token = authHeader.split(' ')[1]
-  const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+  const supabase = createClient(clientEnv.NEXT_PUBLIC_SUPABASE_URL, clientEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY)
   
   const { data: { user }, error: authError } = await supabase.auth.getUser(token)
 

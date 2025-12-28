@@ -1,13 +1,13 @@
 import nodemailer from 'nodemailer'
-import { env } from '@/lib/env'
+import { serverEnv } from '@/lib/env'
 
 const transporter = nodemailer.createTransport({
-  host: env.SMTP_HOST,
-  port: parseInt(env.SMTP_PORT || '465'),
-  secure: env.SMTP_SECURE === 'true',
+  host: serverEnv.SMTP_HOST,
+  port: parseInt(serverEnv.SMTP_PORT || '465'),
+  secure: serverEnv.SMTP_SECURE === 'true',
   auth: {
-    user: env.SMTP_USER,
-    pass: env.SMTP_PASS,
+    user: serverEnv.SMTP_USER,
+    pass: serverEnv.SMTP_PASS,
   },
 })
 
@@ -21,7 +21,7 @@ interface SendMailOptions {
 export async function sendMail({ to, subject, html, text }: SendMailOptions) {
   try {
     const info = await transporter.sendMail({
-      from: `"LexNova Legal" <${env.SMTP_USER}>`,
+      from: `"LexNova Legal" <${serverEnv.SMTP_USER}>`,
       to,
       subject,
       text: text || html.replace(/<[^>]*>?/gm, ''), // Fallback plain text

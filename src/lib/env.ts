@@ -1,42 +1,130 @@
 /**
  * Environment Variable Validation
- * ensuring critical keys exist at runtime.
+ * Lazy validation via getters to avoid import-time failures.
+ * 
+ * CRITICAL: This file uses lazy getters instead of immediate validation
+ * to ensure env vars are only checked when actually accessed at runtime,
+ * not during module import evaluation.
  */
 
-const requiredEnvVars = [
-  'NEXT_PUBLIC_SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  'NEXT_PUBLIC_SITE_URL',
-] as const
+/**
+ * Client-safe environment variables (NEXT_PUBLIC_*)
+ * These are safe to use in both server and client code.
+ */
+export const clientEnv = {
+  get NEXT_PUBLIC_SUPABASE_URL(): string {
+    const value = process.env.NEXT_PUBLIC_SUPABASE_URL
+    if (!value) {
+      throw new Error(
+        '❌ Missing required environment variable: NEXT_PUBLIC_SUPABASE_URL'
+      )
+    }
+    return value
+  },
 
-export function validateEnv() {
-  const missing = requiredEnvVars.filter(
-    (key) => !process.env[key]
-  )
+  get NEXT_PUBLIC_SUPABASE_ANON_KEY(): string {
+    const value = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!value) {
+      throw new Error(
+        '❌ Missing required environment variable: NEXT_PUBLIC_SUPABASE_ANON_KEY'
+      )
+    }
+    return value
+  },
 
-  if (missing.length > 0) {
-    throw new Error(
-      `❌ Invalid Environment Variables: Missing required keys: ${missing.join(
-        ', '
-      )}`
-    )
-  }
+  get NEXT_PUBLIC_SITE_URL(): string {
+    const value = process.env.NEXT_PUBLIC_SITE_URL
+    if (!value) {
+      throw new Error(
+        '❌ Missing required environment variable: NEXT_PUBLIC_SITE_URL'
+      )
+    }
+    return value
+  },
 }
 
-// Run validation immediately
-validateEnv()
+/**
+ * Server-only environment variables
+ * These should NEVER be used in client code.
+ * Import this only in API routes, Server Components, or server utilities.
+ */
+export const serverEnv = {
+  get SUPABASE_SERVICE_ROLE_KEY(): string {
+    const value = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (!value) {
+      throw new Error(
+        '❌ Missing required environment variable: SUPABASE_SERVICE_ROLE_KEY'
+      )
+    }
+    return value
+  },
 
+  get ADMIN_NOTIFY_EMAIL(): string | undefined {
+    return process.env.ADMIN_NOTIFY_EMAIL
+  },
+
+  get SMTP_HOST(): string | undefined {
+    return process.env.SMTP_HOST
+  },
+
+  get SMTP_PORT(): string | undefined {
+    return process.env.SMTP_PORT
+  },
+
+  get SMTP_SECURE(): string | undefined {
+    return process.env.SMTP_SECURE
+  },
+
+  get SMTP_USER(): string | undefined {
+    return process.env.SMTP_USER
+  },
+
+  get SMTP_PASS(): string | undefined {
+    return process.env.SMTP_PASS
+  },
+
+  get SMTP_FROM(): string | undefined {
+    return process.env.SMTP_FROM
+  },
+}
+
+/**
+ * @deprecated Use `clientEnv` or `serverEnv` instead.
+ * This export is kept temporarily for backwards compatibility
+ * but will be removed in a future version.
+ */
 export const env = {
-  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL!,
-  // Optional server-side key
-  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  ADMIN_NOTIFY_EMAIL: process.env.ADMIN_NOTIFY_EMAIL,
-  SMTP_HOST: process.env.SMTP_HOST,
-  SMTP_PORT: process.env.SMTP_PORT,
-  SMTP_SECURE: process.env.SMTP_SECURE,
-  SMTP_USER: process.env.SMTP_USER,
-  SMTP_PASS: process.env.SMTP_PASS,
-  SMTP_FROM: process.env.SMTP_FROM,
+  get NEXT_PUBLIC_SUPABASE_URL() {
+    return clientEnv.NEXT_PUBLIC_SUPABASE_URL
+  },
+  get NEXT_PUBLIC_SUPABASE_ANON_KEY() {
+    return clientEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  },
+  get NEXT_PUBLIC_SITE_URL() {
+    return clientEnv.NEXT_PUBLIC_SITE_URL
+  },
+  get SUPABASE_SERVICE_ROLE_KEY() {
+    return serverEnv.SUPABASE_SERVICE_ROLE_KEY
+  },
+  get ADMIN_NOTIFY_EMAIL() {
+    return serverEnv.ADMIN_NOTIFY_EMAIL
+  },
+  get SMTP_HOST() {
+    return serverEnv.SMTP_HOST
+  },
+  get SMTP_PORT() {
+    return serverEnv.SMTP_PORT
+  },
+  get SMTP_SECURE() {
+    return serverEnv.SMTP_SECURE
+  },
+  get SMTP_USER() {
+    return serverEnv.SMTP_USER
+  },
+  get SMTP_PASS() {
+    return serverEnv.SMTP_PASS
+  },
+  get SMTP_FROM() {
+    return serverEnv.SMTP_FROM
+  },
 }

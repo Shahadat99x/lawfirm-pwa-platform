@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { env } from '@/lib/env'
 
 // Simple in-memory rate limiter (Map<IP, Timestamp[]>)
 const rateLimitMap = new Map<string, number[]>()
