@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     description: 'Full range of legal services including immigration, business formation, and employment contracts.',
 }
 
+// Force dynamic rendering to prevent \"static to dynamic at runtime\" errors
+// This page accesses cookies via Supabase server client
+export const dynamic = 'force-dynamic'
 export const revalidate = 3600 // 1 hour
 
 export default async function ServicesPage() {

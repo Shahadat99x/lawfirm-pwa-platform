@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     },
 }
 
+// Force dynamic rendering to prevent \"static to dynamic at runtime\" errors
+// This page accesses cookies via Supabase server client
+export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
 export default async function BlogPage() {
