@@ -1,0 +1,18 @@
+[33m60b5bfa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Harden LexNova Legal for real production
+[33m2474a34[m (PWA Readiness) is complete.
+[33m6916e35[m seo ready
+[33m92013fd[m SEO & Discoverability
+[33mba338b1[m Admin Mobile Responsiveness features
+[33m3f5b10e[m feat: add public appointment booking flow with admin approval
+[33ma9f9278[m bug fix: public blog fixed uploded issues.
+[33m4967d6a[m bug  fixed for services, testomonial , team pages, now added data from admin dashboard synced properly
+[33m25ebb36[m Add admin blog CMS with Markdown editor and Cloudinary image support.
+[33m8eea6db[m Fix lead submission and restore admin leads visibility.
+[33mb6d7718[m Implemented secure consultation lead intake with server-side validation, anti-spam protection, and Supabase persistence. Contact form now submits reliably with clear success/error states.
+[33m5dc3ecf[m Public site layout finalized with shared header/footer and Supabase-powered content.
+[33m35f509d[m Phase 0 complete: Set up a clean Next.js + TypeScript + Tailwind foundation with repo hygiene, env safety, and full product/architecture docs. Build and lint pass; ready for public UI phase.
+[33m1bad27d[m chore: add env example and env helper
+[33mc166bb7[m docs: add product brief, sitemap, models, architecture, design system
+[33ma75edd9[m chore: add formatting configs and repo hygiene
+[33mb05cf5e[m chore: scaffold nextjs app (ts, tailwind, eslint)
+[33m4b0fb0c[m Initial commit
