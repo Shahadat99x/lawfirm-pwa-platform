@@ -53,9 +53,6 @@ export const metadata: Metadata = {
     images: [siteConfig.ogImage],
     creator: "@lexnovalegal",
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
   robots: {
     index: true,
     follow: true,
