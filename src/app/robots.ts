@@ -1,8 +1,8 @@
 import { type MetadataRoute } from 'next'
-import { clientEnv } from '@/lib/env'
+import { getBaseUrl, joinUrl } from '@/lib/url'
 
 export default function robots(): MetadataRoute.Robots {
-    const baseUrl = clientEnv.NEXT_PUBLIC_SITE_URL
+    const baseUrl = getBaseUrl()
 
     return {
         rules: [
@@ -12,6 +12,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ['/admin/', '/api/'],
             },
         ],
-        sitemap: `${baseUrl}/sitemap.xml`,
+        sitemap: joinUrl(baseUrl, '/sitemap.xml'),
     }
 }
