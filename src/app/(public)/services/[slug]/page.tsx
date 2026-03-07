@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import Container from "@/components/ui/Container"
 import { getPracticeAreaBySlug, getPracticeAreas } from "@/lib/data"
+import { getBaseUrl } from "@/lib/url"
 import { Button } from "@/components/ui/Button"
 import { ArrowLeft, CheckCircle } from "lucide-react"
 import ReactMarkdown from 'react-markdown'
@@ -40,6 +41,9 @@ export async function generateMetadata({ params }: PageProps) {
     return {
         title: `${area.title} | LexNova Legal`,
         description: area.description || area.excerpt,
+        alternates: {
+            canonical: `${getBaseUrl()}/services/${slug}`,
+        },
         openGraph: {
             title: area.title,
             description: area.description || area.excerpt,
