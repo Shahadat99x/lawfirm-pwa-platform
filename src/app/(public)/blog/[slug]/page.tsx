@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import Container from "@/components/ui/Container"
 import { getBlogPostBySlug, getBlogPosts } from "@/lib/data"
+import { getBaseUrl } from "@/lib/url"
 import { Badge } from "@/components/ui/Badge"
 import { ArrowLeft } from "lucide-react"
 import ReactMarkdown from "react-markdown"
@@ -41,10 +42,14 @@ export async function generateMetadata({ params }: PageProps) {
         }
 
         const ogImage = post.cover_image_url || '/og-image.jpg' // Fallback to safe default if no cover
+        const baseUrl = getBaseUrl()
 
         return {
             title: `${post.title} | LexNova Legal`,
             description: post.excerpt || 'Read more on LexNova Legal blog',
+            alternates: {
+                canonical: `${baseUrl}/blog/${post.slug}`,
+            },
             openGraph: {
                 title: post.title,
                 description: post.excerpt || '',
