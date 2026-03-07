@@ -1,4 +1,14 @@
 import Container from "@/components/ui/Container"
+import type { Metadata } from "next"
+import { getBaseUrl } from "@/lib/url"
+
+export const metadata: Metadata = {
+    title: "Privacy Policy | LexNova Legal",
+    description: "Read LexNova Legal's privacy policy to understand how we collect, use, and protect your personal information.",
+    alternates: {
+        canonical: `${getBaseUrl()}/privacy`,
+    },
+}
 
 export default function PrivacyPage() {
     return (

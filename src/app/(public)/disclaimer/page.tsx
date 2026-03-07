@@ -1,4 +1,14 @@
 import Container from "@/components/ui/Container"
+import type { Metadata } from "next"
+import { getBaseUrl } from "@/lib/url"
+
+export const metadata: Metadata = {
+    title: "Disclaimer | LexNova Legal",
+    description: "Important disclaimer regarding the information provided on LexNova Legal's website.",
+    alternates: {
+        canonical: `${getBaseUrl()}/disclaimer`,
+    },
+}
 
 export default function DisclaimerPage() {
     return (
