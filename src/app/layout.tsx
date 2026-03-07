@@ -15,6 +15,25 @@ const geistMono = Geist_Mono({
 import { siteConfig } from "@/lib/seo-config";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 
+// Safe JSON-LD structured data - only includes confirmed site details
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  "name": "LexNova Legal",
+  "url": siteConfig.url,
+  "description": siteConfig.description,
+  "areaServed": {
+    "@type": "Country",
+    "name": "Lithuania"
+  },
+  "serviceType": ["Immigration Law", "Business Formation", "Employment Law"],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "email": "info@lexnova.lt"
+  }
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -83,6 +102,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

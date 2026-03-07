@@ -1,4 +1,14 @@
 import Container from "@/components/ui/Container"
+import type { Metadata } from "next"
+import { getBaseUrl } from "@/lib/url"
+
+export const metadata: Metadata = {
+    title: "Cookie Policy | LexNova Legal",
+    description: "Learn about how LexNova Legal uses cookies and similar technologies on this website.",
+    alternates: {
+        canonical: `${getBaseUrl()}/cookies`,
+    },
+}
 
 export default function CookiesPage() {
     return (
