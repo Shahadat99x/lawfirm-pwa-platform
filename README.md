@@ -184,4 +184,4 @@ npm run start
 ## 👤 Author
 - **GitHub:** https://github.com/Shahadat99x
 - **Portfolio:** www.dhossain.com
-- **LinkedIn:**https://linkedin.com/in/shahadat-ai
+- **LinkedIn:** https://linkedin.com/in/shahadat-ai
